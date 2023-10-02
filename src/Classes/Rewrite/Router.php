@@ -1,9 +1,10 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rewrite;
+namespace MorningMedley\Route\Classes\Rewrite;
 
-use Morningtrain\WP\Route\Abstracts\AbstractRouteFactory;
-use Morningtrain\WP\Route\Classes\Response;
+use Illuminate\Container\Container;
+use MorningMedley\Route\Abstracts\AbstractRouteFactory;
+use MorningMedley\Route\Classes\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class Router extends AbstractRouteFactory
@@ -12,9 +13,9 @@ class Router extends AbstractRouteFactory
     protected string $hashOption = 'mtwp_route_hash';
     protected ?Route $matchedRoute = null;
 
-    public function __construct()
+    public function __construct(Container $app)
     {
-        parent::__construct();
+        parent::__construct($app);
         \add_action('init', [$this, 'registerRoutes']);
     }
 
@@ -44,12 +45,12 @@ class Router extends AbstractRouteFactory
 
     public function newRoute(string $path, string|callable $callback): Route
     {
-        return new Route($path, $callback);
+        return $this->app->makeWith(Route::class, ['path' => $path, 'callback' => $callback]);
     }
 
     public function newGroup(): Group
     {
-        return new Group();
+        return $this->app->make(Group::class);
     }
 
     public function addMainRewriteTag(): void
@@ -103,7 +104,7 @@ class Router extends AbstractRouteFactory
     public function onTemplateRedirect()
     {
         if (! $this->matchedRoute instanceof Route) {
-            Response::withWordPressTemplate('404', 404)->send();
+            $this->app->make(Response::class)->withWordPressTemplate('404', 404)->send();
             exit;
         }
 

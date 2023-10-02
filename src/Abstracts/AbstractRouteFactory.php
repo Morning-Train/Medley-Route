@@ -1,7 +1,8 @@
 <?php
 
-namespace Morningtrain\WP\Route\Abstracts;
+namespace MorningMedley\Route\Abstracts;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Collection;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Support\Collection;
  */
 abstract class AbstractRouteFactory
 {
+    protected Container $app;
+
     abstract public function newRoute(string $path, string|callable $callback): AbstractRoute;
 
     abstract public function newGroup(): AbstractGroup;
@@ -27,8 +30,9 @@ abstract class AbstractRouteFactory
     public ?AbstractGroup $currentGroup = null;
     protected Collection $routes;
 
-    public function __construct()
+    public function __construct(Container $app)
     {
+        $this->app = $app;
         $this->routes = new Collection();
     }
 

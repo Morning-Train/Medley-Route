@@ -1,8 +1,8 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rest;
+namespace MorningMedley\Route\Classes\Rest;
 
-use Morningtrain\WP\Route\Abstracts\AbstractRoute;
+use MorningMedley\Route\Abstracts\AbstractRoute;
 
 /**
  * @property Group $group
@@ -38,7 +38,7 @@ class Route extends AbstractRoute
     {
         $namespace = $this->group?->getNamespace();
         if (empty($namespace)) {
-            $namespace = \Morningtrain\WP\Route\Route::restRouter()->getGlobalNamespace();
+            $namespace = $this->app->make('rest-router')->getGlobalNamespace();
         }
 
         return $namespace;
@@ -49,7 +49,7 @@ class Route extends AbstractRoute
         return [
             'methods' => $this->getRequestMethods(),
             'permission_callback' => $this->getPermissionCallback(),
-            'callback' => \Morningtrain\WP\Route\Route::restRouter()->addCallback($this),
+            'callback' => $this->app->make('rest-router')->addCallback($this),
         ];
     }
 

@@ -1,23 +1,24 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rewrite;
+namespace MorningMedley\Route\Classes\Rewrite;
 
-use Morningtrain\WP\Route\Abstracts\AbstractRoute;
-use Morningtrain\WP\Route\Route as RouteHandler;
+use Illuminate\Container\Container;
+use MorningMedley\Route\Abstracts\AbstractRoute;
+use MorningMedley\Route\Route as RouteHandler;
 use Symfony\Component\HttpFoundation\Request;
 
 class Route extends AbstractRoute
 {
     private string $position = 'top';
 
-    public function __construct(string $path, callable|string $callback)
+    public function __construct(Container $app, string $path, callable|string $callback)
     {
-        parent::__construct($path, $callback);
+        parent::__construct($app,$path, $callback);
     }
 
     public function register(): void
     {
-        $path = RouteHandler::rewriteRouter()->getQueryVar() . "=" . \urlencode($this->getPath());
+        $path = $this->app->make('rewrite-router')->getQueryVar() . "=" . \urlencode($this->getPath());
         $i = 1;
         foreach ($this->getParams() as $param) {
             $path .= "&{$param}=\$matches[{$i}]";

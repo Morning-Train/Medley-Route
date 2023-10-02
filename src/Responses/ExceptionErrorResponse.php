@@ -1,6 +1,6 @@
 <?php
 
-namespace Morningtrain\WP\Route\Responses;
+namespace MorningMedley\Route\Responses;
 
 use Symfony\Component\HttpFoundation\Response;
 

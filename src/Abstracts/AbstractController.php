@@ -1,6 +1,6 @@
 <?php
 
-namespace Morningtrain\WP\Route\Abstracts;
+namespace MorningMedley\Route\Abstracts;
 
 /**
  * Class AbstractController
@@ -13,7 +13,7 @@ namespace Morningtrain\WP\Route\Abstracts;
  * For instance a controller for a given endpoint at maximum have the 4 CRUD methods.
  * If you need 2 different READS/get routes then you should consider having different controllers for these
  *
- * @package Morningtrain\WP\Route\Abstracts
+ * @package MorningMedley\Route\Abstracts
  */
 abstract class AbstractController
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Morningtrain\WP\Facades;
+namespace MorningMedley\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Morningtrain\WP\Route\Classes\Rest\Group;
-use Morningtrain\WP\Route\Classes\Rest\Route as RestRoute;
+use MorningMedley\Route\Classes\Rest\Group;
+use MorningMedley\Route\Classes\Rest\Route as RestRoute;
 
 /**
  * @method static RestRoute any(string $path, callable $callback) Add a route that accepts any request type

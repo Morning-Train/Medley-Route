@@ -1,11 +1,16 @@
 <?php
 
-namespace Morningtrain\WP\Route\Abstracts;
+namespace MorningMedley\Route\Abstracts;
 
+use Illuminate\Container\Container;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @property Container $app
+ */
 abstract class AbstractRoute
 {
+    protected Container $app;
     protected string $path;
     protected $callback;
     protected ?string $name = null;
@@ -24,9 +29,11 @@ abstract class AbstractRoute
      * @param  callable|string  $callback
      */
     public function __construct(
+        Container $app,
         string $path,
         callable|string $callback
     ) {
+        $this->app = $app;
         $this->path = trim($path, '/');
         $this->callback = $callback;
 

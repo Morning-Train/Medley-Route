@@ -1,10 +1,11 @@
 <?php
 
-namespace Morningtrain\WP\Route\Abstracts;
+namespace MorningMedley\Route\Abstracts;
 
+use Illuminate\Container\Container;
 use Illuminate\Pipeline\Pipeline;
-use Morningtrain\WP\Route\Classes\Middleware;
-use Morningtrain\WP\Route\Responses\ExceptionErrorResponse;
+use MorningMedley\Route\Classes\Middleware;
+use MorningMedley\Route\Responses\ExceptionErrorResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,10 +14,16 @@ abstract class AbstractGroup
     protected array $middleware = [];
     protected ?self $group = null;
     protected string $prefix = '';
+    protected Container $app;
 
     abstract protected function open(): void;
 
     abstract protected function close(): void;
+
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
 
     public function getGroup(): ?static
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rest;
+namespace MorningMedley\Route\Classes\Rest;
 
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Request;

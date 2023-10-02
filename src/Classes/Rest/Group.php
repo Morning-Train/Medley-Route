@@ -1,9 +1,9 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rest;
+namespace MorningMedley\Route\Classes\Rest;
 
-use Morningtrain\WP\Route\Abstracts\AbstractGroup;
-use Morningtrain\WP\Route\Route;
+use MorningMedley\Route\Abstracts\AbstractGroup;
+use MorningMedley\Route\Route;
 
 class Group extends AbstractGroup
 {
@@ -13,12 +13,12 @@ class Group extends AbstractGroup
 
     protected function open(): void
     {
-        Route::restRouter()->setCurrentGroup($this);
+        $this->app->make('rest-router')->setCurrentGroup($this);
     }
 
     protected function close(): void
     {
-        Route::restRouter()->setCurrentGroup($this->getGroup());
+        $this->app->make('rest-router')->setCurrentGroup($this->getGroup());
     }
 
     public function namespace(string $namespace): static

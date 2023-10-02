@@ -1,6 +1,6 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes;
+namespace MorningMedley\Route\Classes;
 
 use Symfony\Component\HttpFoundation\Request;
 

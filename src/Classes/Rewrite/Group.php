@@ -1,19 +1,19 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rewrite;
+namespace MorningMedley\Route\Classes\Rewrite;
 
-use Morningtrain\WP\Route\Abstracts\AbstractGroup;
-use Morningtrain\WP\Route\Route;
+use MorningMedley\Route\Abstracts\AbstractGroup;
+use MorningMedley\Route\Route;
 
 class Group extends AbstractGroup
 {
     protected function open(): void
     {
-        Route::rewriteRouter()->setCurrentGroup($this);
+        $this->app->make('rewrite-router')->setCurrentGroup($this);
     }
 
     protected function close(): void
     {
-        Route::rewriteRouter()->setCurrentGroup($this->getGroup());
+        $this->app->make('rewrite-router')->setCurrentGroup($this->getGroup());
     }
 }

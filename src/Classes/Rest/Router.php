@@ -1,20 +1,24 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes\Rest;
+namespace MorningMedley\Route\Classes\Rest;
 
-use Morningtrain\WP\Route\Abstracts\AbstractRouteFactory;
-use Morningtrain\WP\Route\Classes\Response;
+use Illuminate\Container\Container;
+use MorningMedley\Route\Abstracts\AbstractRouteFactory;
+use MorningMedley\Route\Classes\Response;
 
 class Router extends AbstractRouteFactory
 {
     protected string $globalNamespace = 'mtwp/v1';
     protected string $exposeVar = 'mtwpRestRoutes';
     protected CallbackHandler $callbackHandler;
+    private Container $app;
 
-    public function __construct(CallbackHandler $callbackHandler)
+    public function __construct(Container $app, CallbackHandler $callbackHandler)
     {
         $this->callbackHandler = $callbackHandler;
-        parent::__construct();
+
+        parent::__construct($app);
+
         \add_action('wp_head', [$this, 'exposeRoutes'], 2);
         \add_action('rest_api_init', [$this, 'registerRoutes']);
     }
@@ -31,12 +35,12 @@ class Router extends AbstractRouteFactory
 
     public function newRoute(string $path, string|callable $callback): Route
     {
-        return new Route($path, $callback);
+        return $this->app->makeWith(Route::class, ['path' => $path, 'callback' => $callback]);
     }
 
     public function newGroup(): Group
     {
-        return new Group();
+        return $this->app->make(Group::class);
     }
 
     public function getGlobalNamespace(): string

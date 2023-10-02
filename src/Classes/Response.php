@@ -1,13 +1,16 @@
 <?php
 
-namespace Morningtrain\WP\Route\Classes;
+namespace MorningMedley\Route\Classes;
 
-use Morningtrain\WP\Route\Responses\WPErrorResponse;
+use Illuminate\Container\Container;
+use Illuminate\View\View;
+use MorningMedley\Route\Responses\WPErrorResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class Response
 {
+
     /**
      * Respond to a request with a string
      *
@@ -17,7 +20,7 @@ class Response
      *
      * @return SymfonyResponse
      */
-    public static function with(string $content, int $status = 200, array $headers = []): SymfonyResponse
+    public function with(string $content, int $status = 200, array $headers = []): SymfonyResponse
     {
         return new SymfonyResponse($content, $status, $headers);
     }
@@ -31,13 +34,13 @@ class Response
      *
      * @throws \Exception
      */
-    public static function withView(string $view, array $data = []): SymfonyResponse
+    public function withView(string $view, array $data = []): SymfonyResponse
     {
-        if (! class_exists('\Morningtrain\WP\View\View')) {
+        if (! function_exists('view')) {
             throw new \Exception('view_package_is_not_installed');
         }
 
-        return new SymfonyResponse(\Morningtrain\WP\View\View::render($view, $data));
+        return new SymfonyResponse(view($view, $data));
     }
 
     /**
@@ -49,7 +52,7 @@ class Response
      *
      * @return SymfonyResponse
      */
-    public static function withJSON(mixed $data, int $status = 200, array $headers = []): SymfonyResponse
+    public function withJSON(mixed $data, int $status = 200, array $headers = []): SymfonyResponse
     {
         return new JsonResponse($data, $status, $headers);
     }
@@ -60,7 +63,7 @@ class Response
      * @param  ?string  $message
      * @return SymfonyResponse
      */
-    public static function with404(?string $message = null): SymfonyResponse
+    public function with404(?string $message = null): SymfonyResponse
     {
         if ($message === null) {
             return static::withWordPressTemplate('404', 404);
@@ -78,7 +81,7 @@ class Response
      *
      * @return WPErrorResponse
      */
-    public static function withError(\WP_Error $error, int $status = 500, array $headers = []): WPErrorResponse
+    public function withError(\WP_Error $error, int $status = 500, array $headers = []): WPErrorResponse
     {
         return new WPErrorResponse($error, $status, $headers);
     }
@@ -92,7 +95,7 @@ class Response
      *
      * @return SymfonyResponse
      */
-    public static function withWordPressTemplate(
+    public function withWordPressTemplate(
         string $template,
         int $status = 200,
         array $headers = []
@@ -118,6 +121,6 @@ class Response
             $response = ob_get_clean();
         }
 
-        return static::with((string) $response, $status, $headers);
+        return $this->with((string) $response, $status, $headers);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Morningtrain\WP\Route\Responses;
+namespace MorningMedley\Route\Responses;
 
 /**
  * A Symfony Response that represents an error. Displays a wp_die

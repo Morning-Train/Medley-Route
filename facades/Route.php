@@ -1,10 +1,10 @@
 <?php
 
-namespace Morningtrain\WP\Facades;
+namespace MorningMedley\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Morningtrain\WP\Route\Classes\Rewrite\Group;
-use Morningtrain\WP\Route\Classes\Rewrite\Route as RewriteRoute;
+use MorningMedley\Route\Classes\Rewrite\Group;
+use MorningMedley\Route\Classes\Rewrite\Route as RewriteRoute;
 
 /**
  * @method static RewriteRoute any(string $path, callable $callback) Add a route that accepts any request type

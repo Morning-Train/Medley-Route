@@ -1,9 +1,10 @@
 {
-    "name": "morningtrain/wp-route",
+    "name": "morningmedley/route",
     "description": "A simple route service for WordPress",
     "keywords": [
         "wordpress",
         "morningtrain",
+        "morningmedley",
         "route"
     ],
     "minimum-stability": "stable",
@@ -16,37 +17,23 @@
     ],
     "autoload": {
         "psr-4": {
-            "Morningtrain\\WP\\Route\\": "src/",
-            "Morningtrain\\WP\\Facades\\": "facades/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Morningtrain\\WP\\Route\\Tests\\Unit\\": "tests/Unit",
-            "Morningtrain\\WP\\Route\\Tests\\Feature\\": "tests/Feature"
+            "MorningMedley\\Route\\": "src/",
+            "MorningMedley\\Facades\\": "facades/"
         }
     },
     "require": {
         "php": "^8.0",
-        "morningtrain/php-loader": "^0.3.0",
         "illuminate/pipeline": "^8|^9",
         "illuminate/container": "^8|^9",
         "illuminate/support": "^8|^9",
         "symfony/http-foundation": "^6"
     },
-    "require-dev": {
-        "brain/monkey": "~2.0.0",
-        "pestphp/pest": "^1.21"
-    },
-    "scripts": {
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage"
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MorningMedley\\Route\\ServiceProvider"
+            ]
         }
-    },
-    "prefer-stable": true
+    }
 }
