@@ -11,7 +11,6 @@ class Router extends AbstractRouteFactory
     protected string $globalNamespace = 'mtwp/v1';
     protected string $exposeVar = 'mtwpRestRoutes';
     protected CallbackHandler $callbackHandler;
-    private Container $app;
 
     public function __construct(Container $app, CallbackHandler $callbackHandler)
     {
