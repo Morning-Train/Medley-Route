@@ -25,8 +25,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
-        $cache = $this->app->makeWith('file.cache', ['namespace' => 'route', 'defaultLifetime' => DAY_IN_SECONDS]);
-
+        $cache = $this->app->make('filecachemanager')->getCache('route');
         $files = $cache->get('route', function () {
             $files = [];
             foreach ((array) $this->app['config']->get('route.paths') as $path) {
@@ -41,6 +40,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             return $files;
         });
+
         foreach ($files as $file) {
             require_once $file;
         }
