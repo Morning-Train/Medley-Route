@@ -25,7 +25,7 @@
         "illuminate/container": "^9|^10",
         "illuminate/support": "^9|^10",
         "symfony/http-foundation": "^6",
-        "symfony/finder": "^v6.4"
+        "symfony/finder": "^v6"
     },
     "extra": {
         "morningmedley": {

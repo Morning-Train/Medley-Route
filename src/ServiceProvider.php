@@ -29,7 +29,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $files = $cache->get('route', function () {
             $files = [];
             foreach ((array) $this->app['config']->get('route.paths') as $path) {
-                $path = $this->app->basePath($path);
+                if(!is_dir($path)){
+                    $path = $this->app->basePath($path);
+                }
                 $filesystem = $this->app->make(Filesystem::class);
                 /** @var Filesystem $filesystem */
                 $files = [
