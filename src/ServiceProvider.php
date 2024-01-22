@@ -36,7 +36,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 /** @var Filesystem $filesystem */
                 $files = [
                     ...$files,
-                    ...array_map(fn(SplFileInfo $file) => $file->getRealPath(), $filesystem->files($path)),
+                    ...array_map(fn(SplFileInfo $file) => $file->getRealPath(), $filesystem->allFiles($path)),
                 ];
             }
 
