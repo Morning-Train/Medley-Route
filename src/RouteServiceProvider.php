@@ -10,7 +10,7 @@ use MorningMedley\Route\Classes\Rewrite\Router as RewriteRouter;
 use MorningMedley\Facades\Route as RouteFacade;
 use Symfony\Component\Finder\SplFileInfo;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class RouteServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function register()
     {
