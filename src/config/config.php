@@ -1,3 +1,5 @@
 <?php return [
-    'paths' => ['routes'],
+    'paths' => [
+        base_path('routes'),
+    ],
 ];
