@@ -10,27 +10,26 @@ use MorningMedley\Route\Classes\Rewrite\Router as RewriteRouter;
 use MorningMedley\Facades\Route as RouteFacade;
 use Symfony\Component\Finder\SplFileInfo;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class RouteServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . "/config/config.php", 'route');
 
         RouteFacade::setFacadeApplication($this->app);
-        RestFacade::setFacadeApplication($this->app);
         $this->app->singleton('rewrite-router', RewriteRouter::class);
-        $this->app->singleton('rest-router', RestRouter::class);
-
     }
 
     public function boot()
     {
-        $cache = $this->app->make('filecachemanager')->getCache('route');
-        $files = $cache->get('route', function () {
+        if (! $this->app->configurationIsCached()) {
             $files = [];
-            foreach ((array) $this->app['config']->get('route.paths') as $path) {
-                if(!is_dir($path)){
+            foreach ($this->app['config']->get('route.paths') as $path) {
+                if (! is_dir($path)) {
                     $path = $this->app->basePath($path);
+                    if (! is_dir($path)) {
+                        continue;
+                    }
                 }
                 $filesystem = $this->app->make(Filesystem::class);
                 /** @var Filesystem $filesystem */
@@ -39,11 +38,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                     ...array_map(fn(SplFileInfo $file) => $file->getRealPath(), $filesystem->allFiles($path)),
                 ];
             }
+            $this->app['config']->set('route.files', $files);
+        }
 
-            return $files;
-        });
-
-        foreach ($files as $file) {
+        foreach ($this->app['config']->get('route.files') as $file) {
             require_once $file;
         }
     }
