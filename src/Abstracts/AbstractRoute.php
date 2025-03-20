@@ -3,6 +3,8 @@
 namespace MorningMedley\Route\Abstracts;
 
 use Illuminate\Container\Container;
+use Illuminate\Http\Response;
+use MorningMedley\Application\Http\ResponseFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,7 +33,7 @@ abstract class AbstractRoute
     public function __construct(
         Container $app,
         string $path,
-        callable|string $callback
+        callable|string|array $callback
     ) {
         $this->app = $app;
         $this->path = trim($path, '/');
@@ -64,7 +66,7 @@ abstract class AbstractRoute
      *
      * @return callable|string
      */
-    public function getCallback(): callable|string
+    public function getCallback(): callable|string|array
     {
         return $this->callback;
     }
@@ -102,9 +104,31 @@ abstract class AbstractRoute
         // If callback is a string and a class, then it must be for invoking
         $callback = $this->getCallback();
         if (is_string($callback) && class_exists($callback)) {
-            $callback = new $callback();
+            $callback = app($callback);
         }
-        ($callback)($request, ...$args);
+
+        try{
+            $response = app()->call($callback);
+        }catch (\Error $e){
+            // This indicates that the method is not static.
+            // So we construct an instance of the controller class
+            if (is_array($callback) && is_string($callback[0])) {
+                $callback[0] = app($callback[0]);
+            }
+
+            $response = app()->call($callback);
+        }
+
+        if(empty($response)){
+            return $this;
+        }
+
+        if(!is_a($response, Response::class)){
+            $rf = new ResponseFactory(app('view'));
+            $rf->make($response)->send();
+        }else{
+            $response->send();
+        }
 
         return $this;
     }

@@ -7,14 +7,14 @@ use MorningMedley\Route\Classes\Rewrite\Group;
 use MorningMedley\Route\Classes\Rewrite\Route as RewriteRoute;
 
 /**
- * @method static RewriteRoute any(string $path, callable $callback) Add a route that accepts any request type
- * @method static RewriteRoute match(array $requestMethods, string $path, callable $callback) Add a route that accepts multiple request methods
- * @method static RewriteRoute get(string $path, string|callable $callback) Add a GET route
- * @method static RewriteRoute post(string $path, callable $callback) Add a POST route
- * @method static RewriteRoute put(string $path, callable $callback) Add a PUT route
- * @method static RewriteRoute patch(string $path, callable $callback) Add a PATCH route
- * @method static RewriteRoute delete(string $path, callable $callback) Add a DELETE route
- * @method static RewriteRoute options(string $path, callable $callback) Add a OPTIONS route
+ * @method static RewriteRoute any(string $path, $callback) Add a route that accepts any request type
+ * @method static RewriteRoute match(array $requestMethods, string $path, $callback) Add a route that accepts multiple request methods
+ * @method static RewriteRoute get(string $path, string $callback) Add a GET route
+ * @method static RewriteRoute post(string $path, $callback) Add a POST route
+ * @method static RewriteRoute put(string $path, $callback) Add a PUT route
+ * @method static RewriteRoute patch(string $path, $callback) Add a PATCH route
+ * @method static RewriteRoute delete(string $path, $callback) Add a DELETE route
+ * @method static RewriteRoute options(string $path,  $callback) Add a OPTIONS route
  * @method static Group middleware($middleware) Create a group with middleware
  * @method static Group prefix(string $prefix) Create a group with prefix
  * @method static Group group(\Closure $routes) Create a simple group

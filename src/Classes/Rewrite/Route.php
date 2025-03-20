@@ -11,7 +11,7 @@ class Route extends AbstractRoute
 {
     private string $position = 'top';
 
-    public function __construct(Container $app, string $path, callable|string $callback)
+    public function __construct(Container $app, string $path,  $callback)
     {
         parent::__construct($app,$path, $callback);
     }
