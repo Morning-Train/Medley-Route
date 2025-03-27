@@ -21,10 +21,8 @@
     },
     "require": {
         "php": "^8.2",
-        "illuminate/pipeline": "^11.23",
-        "illuminate/container": "^11.23",
-        "illuminate/support": "^11.23",
-        "symfony/http-foundation": "^v7",
+        "morningmedley/application": "^0.3",
+        "illuminate/pipeline": "^12.3",
         "symfony/finder": "^v7"
     },
     "extra": {

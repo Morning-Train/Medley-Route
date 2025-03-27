@@ -43,7 +43,7 @@ class Router extends AbstractRouteFactory
         \add_action('parse_request', [$this, 'matchRequest']);
     }
 
-    public function newRoute(string $path, string|callable $callback): Route
+    public function newRoute(string $path, $callback): Route
     {
         return $this->app->makeWith(Route::class, ['path' => $path, 'callback' => $callback]);
     }
@@ -108,9 +108,7 @@ class Router extends AbstractRouteFactory
             exit;
         }
 
-        $request = Request::createFromGlobals();
-        global $wp_query;
-        $request->query->add($wp_query->query_vars);
+        $request = app(Request::class);
         $this->matchedRoute->handleMiddleware($request)->call($request);
         exit;
     }
