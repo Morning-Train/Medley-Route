@@ -83,7 +83,7 @@ abstract class AbstractRouteFactory
         return $this->getRouteByName($routeName)?->getUrl($args);
     }
 
-    public function match(array $requestMethods, string $path, string|callable $callback): ?AbstractRoute
+    public function match(array $requestMethods, string $path, $callback): ?AbstractRoute
     {
         // Remove methods that we either don't recognize or allow
         $requestMethods = array_map('strtoupper', $requestMethods);
@@ -105,12 +105,12 @@ abstract class AbstractRouteFactory
         return $route;
     }
 
-    public function any(string $path, string|callable $callback): ?AbstractRoute
+    public function any(string $path, $callback): ?AbstractRoute
     {
         return $this->match($this->getAllowedRequestMethods(), $path, $callback);
     }
 
-    public function get(string $path, string|callable $callback): ?AbstractRoute
+    public function get(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['GET'], $path, $callback);
     }

@@ -21,8 +21,9 @@
     },
     "require": {
         "php": "^8.2",
+        "morningmedley/application": "^0.3",
         "illuminate/pipeline": "^12.3",
-        "morningmedley/application": "^0.2"
+        "symfony/finder": "^v7"
     },
     "extra": {
         "morningmedley": {
