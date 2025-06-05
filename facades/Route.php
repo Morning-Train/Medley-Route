@@ -9,7 +9,7 @@ use MorningMedley\Route\Classes\Rewrite\Route as RewriteRoute;
 /**
  * @method static RewriteRoute any(string $path, $callback) Add a route that accepts any request type
  * @method static RewriteRoute match(array $requestMethods, string $path, $callback) Add a route that accepts multiple request methods
- * @method static RewriteRoute get(string $path, string $callback) Add a GET route
+ * @method static RewriteRoute get(string $path, $callback) Add a GET route
  * @method static RewriteRoute post(string $path, $callback) Add a POST route
  * @method static RewriteRoute put(string $path, $callback) Add a PUT route
  * @method static RewriteRoute patch(string $path, $callback) Add a PATCH route

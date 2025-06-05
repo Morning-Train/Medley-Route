@@ -12,7 +12,7 @@ abstract class AbstractRouteFactory
 {
     protected Container $app;
 
-    abstract public function newRoute(string $path, string|callable $callback): AbstractRoute;
+    abstract public function newRoute(string $path, $callback): AbstractRoute;
 
     abstract public function newGroup(): AbstractGroup;
 
@@ -115,27 +115,27 @@ abstract class AbstractRouteFactory
         return $this->match(['GET'], $path, $callback);
     }
 
-    public function post(string $path, string|callable $callback): ?AbstractRoute
+    public function post(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['POST'], $path, $callback);
     }
 
-    public function patch(string $path, string|callable $callback): ?AbstractRoute
+    public function patch(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['PATCH'], $path, $callback);
     }
 
-    public function put(string $path, string|callable $callback): ?AbstractRoute
+    public function put(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['PUT'], $path, $callback);
     }
 
-    public function options(string $path, string|callable $callback): ?AbstractRoute
+    public function options(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['OPTIONS'], $path, $callback);
     }
 
-    public function delete(string $path, string|callable $callback): ?AbstractRoute
+    public function delete(string $path, $callback): ?AbstractRoute
     {
         return $this->match(['DELETE'], $path, $callback);
     }
