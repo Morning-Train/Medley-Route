@@ -20,9 +20,9 @@
         }
     },
     "require": {
-        "php": "^8.2",
         "morningmedley/application": "^0.3",
         "illuminate/pipeline": "^12.3",
+        "illuminate/routing": "^12.3",
         "symfony/finder": "^v7"
     },
     "extra": {
