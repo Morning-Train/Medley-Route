@@ -2,6 +2,7 @@
 
 namespace MorningMedley\Route;
 
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\Finder\Finder;
 
 class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
@@ -18,7 +19,8 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         $routesDir = $this->app->basePath('routes');
         $finder->in($routesDir)->name('*.php')->notName('index.php')->files();
         foreach ($finder as $file) {
-            require $file->getRealPath();
+            Route::namespace($this->namespace)
+                ->group($file->getRealPath());
         }
     }
 
