@@ -2,11 +2,7 @@
 
 namespace MorningMedley\Route;
 
-use Illuminate\Routing\Pipeline;
-use Illuminate\Routing\RoutingServiceProvider;
-use Illuminate\Support\Facades\Facade;
-
-class RouteServiceProvider extends RoutingServiceProvider
+class RoutingServiceProvider extends \Illuminate\Routing\RoutingServiceProvider
 {
     public function register()
     {

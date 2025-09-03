@@ -28,6 +28,7 @@
     "extra": {
         "morningmedley": {
             "providers": [
+                "MorningMedley\\Route\\RoutingServiceProvider",
                 "MorningMedley\\Route\\RouteServiceProvider"
             ]
         }
