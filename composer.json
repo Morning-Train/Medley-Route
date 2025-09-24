@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "morningmedley/application": "^0.3",
+        "morningmedley/application": "^0.4",
         "illuminate/pipeline": "^12.3",
         "illuminate/routing": "^12.3",
         "symfony/finder": "^v7"
