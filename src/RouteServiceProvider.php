@@ -2,6 +2,9 @@
 
 namespace MorningMedley\Route;
 
+use Illuminate\Foundation\Console\RouteCacheCommand;
+use Illuminate\Foundation\Console\RouteClearCommand;
+use Illuminate\Foundation\Console\RouteListCommand;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Finder\Finder;
 
@@ -10,6 +13,11 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
     public function boot()
     {
         $this->namespace = $this->app->make('config')->get('route.controller_namespace');
+        $this->commands([
+            RouteCacheCommand::class,
+            RouteClearCommand::class,
+            RouteListCommand::class,
+        ]);
     }
 
     public function map(Finder $finder)
@@ -22,15 +30,5 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
             Route::namespace($this->namespace)
                 ->group($file->getRealPath());
         }
-    }
-
-    protected function routesAreCached()
-    {
-        return false; // TODO:
-    }
-
-    protected function loadCachedRoutes()
-    {
-        // TODO:
     }
 }
