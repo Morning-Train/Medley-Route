@@ -2,44 +2,33 @@
 
 namespace MorningMedley\Route;
 
-use Illuminate\Filesystem\Filesystem;
-use MorningMedley\Route\Classes\Rewrite\Router as RewriteRouter;
-use MorningMedley\Facades\Route as RouteFacade;
-use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Foundation\Console\RouteCacheCommand;
+use Illuminate\Foundation\Console\RouteClearCommand;
+use Illuminate\Foundation\Console\RouteListCommand;
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\Finder\Finder;
 
-class RouteServiceProvider extends \Illuminate\Support\ServiceProvider
+class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
 {
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__ . "/config/config.php", 'route');
-
-        RouteFacade::setFacadeApplication($this->app);
-        $this->app->singleton('rewrite-router', RewriteRouter::class);
-    }
-
     public function boot()
     {
-        if (! $this->app->configurationIsCached()) {
-            $files = [];
-            foreach ($this->app['config']->get('route.paths') as $path) {
-                if (! is_dir($path)) {
-                    $path = $this->app->basePath($path);
-                    if (! is_dir($path)) {
-                        continue;
-                    }
-                }
-                $filesystem = $this->app->make(Filesystem::class);
-                /** @var Filesystem $filesystem */
-                $files = [
-                    ...$files,
-                    ...array_map(fn(SplFileInfo $file) => $file->getRealPath(), $filesystem->allFiles($path)),
-                ];
-            }
-            $this->app['config']->set('route.files', $files);
-        }
+        $this->namespace = $this->app->make('config')->get('route.controller_namespace');
+        $this->commands([
+            RouteCacheCommand::class,
+            RouteClearCommand::class,
+            RouteListCommand::class,
+        ]);
+    }
 
-        foreach ($this->app['config']->get('route.files') as $file) {
-            require_once $file;
+    public function map(Finder $finder)
+    {
+        // TODO: Look into middleware groups
+        // Load route files
+        $routesDir = $this->app->basePath('routes');
+        $finder->in($routesDir)->name('*.php')->notName('index.php')->files();
+        foreach ($finder as $file) {
+            Route::namespace($this->namespace)
+                ->group($file->getRealPath());
         }
     }
 }
