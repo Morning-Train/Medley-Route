@@ -27,6 +27,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
             if (empty($parameterNames)) {
                 return $rewriteParameters;
             }
+
             $optionalParameters = array_keys($this->getOptionalParameterNames());
 
             foreach ($parameterNames as $parameterName) {
