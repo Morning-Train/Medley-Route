@@ -56,30 +56,48 @@ class Router extends \Illuminate\Routing\Router implements HttpKernelInterface
         }
     }
 
+    /**
+     * Add necessary rewrite tags and rule
+     *
+     * @param  Route  $route
+     * @return void
+     */
     protected function addRewriteRule(Route $route)
     {
-        // TODO: Clean this up!
         $path = $this->routeQueryVar() . "=" . \urlencode($route->uri());
-        if ($route->hasParameters()) {
-            foreach ($route->parameterNames() as $param) {
-                $path .= "&{$param}=\$matches[{$i}]";
-                \add_rewrite_tag('%' . $param . '%', '([^/]+)');
+
+        $rewriteParameters = $route->rewriteParameters();
+        $regexedParams = [];
+        // If there are parameters then add rewrite tags for these and prepare the regex for rewrite rule
+        if (! empty($rewriteParameters)) {
+            $i = 0;
+            foreach ($rewriteParameters as $parameter) {
+                // Add the parameter's regex
+                $key = $parameter['name'] . ($parameter['optional'] ? '?' : '');
+                $regexedParams[$key] = $parameter['regex'];
+
+                // Append it to the rewrite paths
+                $path .= "&{$parameter['name']}=\$matches[{$i}]";
+
+                // Add rewrite tag for this parameter so that it is available through query_vars
+                \add_rewrite_tag('%' . $parameter['name'] . '%', $parameter['regex']);
                 $i++;
             }
-
         }
 
+        // The full route regex
         $reqex = '^' . ltrim(
                 trim(
                     str_replace(
-                        array_map(fn(string $paramName) => "{" . $paramName . "}", $route->parameterNames()),
-                        '([^/]+)',
+                        array_map(fn(string $paramName) => "{" . $paramName . "}", array_keys($regexedParams)),
+                        array_values($regexedParams),
                         $route->uri())),
                 '/'
             ) . '$';
         $query = 'index.php?' . $path;
         $position = 'top';
 
+        // Add the rule
         \add_rewrite_rule(
             $reqex,
             $query,

@@ -18,6 +18,30 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
             RouteClearCommand::class,
             RouteListCommand::class,
         ]);
+
+        // Add macro that gives access to information that WordPress needs when adding rewrite rule and tags
+        \Illuminate\Routing\Route::macro('rewriteParameters', function () {
+            $parameterNames = $this->parameterNames();
+            $rewriteParameters = [];
+
+            if (empty($parameterNames)) {
+                return $rewriteParameters;
+            }
+            $optionalParameters = array_keys($this->getOptionalParameterNames());
+
+            foreach ($parameterNames as $parameterName) {
+                $regex = key_exists($parameterName, $this->wheres)
+                    ? '(' . $this->wheres[$parameterName] . ')'
+                    : '([^/]+)';
+                $rewriteParameters[] = [
+                    'name' => $parameterName,
+                    'regex' => $regex,
+                    'optional' => in_array($parameterName, $optionalParameters),
+                ];
+            }
+
+            return $rewriteParameters;
+        });
     }
 
     public function map(Finder $finder)
