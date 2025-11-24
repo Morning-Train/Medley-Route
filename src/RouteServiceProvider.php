@@ -53,6 +53,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         $finder->in($routesDir)->name('*.php')->notName('index.php')->files();
         foreach ($finder as $file) {
             Route::namespace($this->namespace)
+                ->domain(\home_url()) // When using route() this is used as base
                 ->group($file->getRealPath());
         }
     }
