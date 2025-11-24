@@ -31,6 +31,16 @@ class Router extends \Illuminate\Routing\Router implements HttpKernelInterface
             \update_option($this->hashOption(), $routesHash);
         }
 
+        // Set home_url as domain for routes without explicit domain set.
+        // This makes route() work better and adds multisite-support
+        // Otherwise route() would try to find domain by current URL, but this includes paths with filenames eg. /login.php
+        // So route() could return https://mysite.com/wp-login.php/my-route
+        foreach ($this->routes->getRoutes() as $route) {
+            if (! $route->domain()) {
+                $route->domain(\home_url());
+            }
+        }
+
         \add_action('parse_request', $this->matchRequest(...));
     }
 
