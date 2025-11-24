@@ -19,6 +19,13 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
             RouteListCommand::class,
         ]);
 
+        if ($this->app->runningInConsole()) {
+            $this->optimizes(
+                optimize: 'route:cache',
+                clear: 'route:clear',
+            );
+        }
+
         // Add macro that gives access to information that WordPress needs when adding rewrite rule and tags
         \Illuminate\Routing\Route::macro('rewriteParameters', function () {
             $parameterNames = $this->parameterNames();
