@@ -2,8 +2,8 @@
 
 namespace MorningMedley\Route;
 
-use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Routing\Route;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
@@ -28,6 +28,10 @@ class Router extends \Illuminate\Routing\Router implements HttpKernelInterface
             $route = $this->routes->match($request);
         } catch (NotFoundHttpException|MethodNotAllowedHttpException $e) {
             // This is fine. This means that WordPress should handle the request
+            $this->events->dispatch(
+                new RouteMatched(null, $request)
+            );
+
             return;
         }
 
