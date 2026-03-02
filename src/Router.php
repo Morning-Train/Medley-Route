@@ -36,7 +36,7 @@ class Router extends \Illuminate\Routing\Router implements HttpKernelInterface
         }
 
         if (is_a($route, Route::class)) {
-            \add_action('template_redirect', $this->onTemplateRedirect(...));
+            \add_action('template_redirect', $this->onTemplateRedirect(...), 9);
         }
     }
 
