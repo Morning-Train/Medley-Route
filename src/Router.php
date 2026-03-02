@@ -16,6 +16,9 @@ class Router extends \Illuminate\Routing\Router implements HttpKernelInterface
 
     public function boot()
     {
+        // Set the base URL to the site's home URL
+        \app('url')->useOrigin(config('route.origin', \home_url()));
+
         \add_action('parse_request', $this->matchRequest(...));
     }
 
