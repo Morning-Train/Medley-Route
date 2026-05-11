@@ -1,10 +1,8 @@
-# Morningmedley Route
+# Route
 
-A Laravel-like router for the WordPress Rewrite API.
+Laravel routing.
 
-This framework is currently in beta and full documentation is coming shortly.
+## Resources
 
-Expected 1.0.0 release mid to late 2024.
-
-## Installation
-`composer install morningmedley/medley`
+- [Documentation](https://morningmedley.dev/docs/modules/route/)
+- [Contributing](https://morningmedley.dev/docs/contributing/)
